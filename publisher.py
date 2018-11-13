@@ -3,6 +3,7 @@
 import pika
 import logging
 import argparse
+import time
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
                 '-35s %(lineno) -5d: %(message)s')
@@ -77,8 +78,9 @@ def main():
     connection = publisher.connect_queue()
     channel = publisher.setup_channel(connection)
 
-    for i in range(6):
+    for i in range(20):
         publisher.publish(channel, "I can count " + str(i))
+        time.sleep(2)
 
     publisher.close_connection(connection)
 

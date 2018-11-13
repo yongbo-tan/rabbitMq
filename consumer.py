@@ -49,10 +49,12 @@ class Consumer():
 
     def callback(self, channel, method, properties, body):
         print(" [x] Received %r" % body)
+        print " [x] Done"
+        channel.basic_ack(delivery_tag=method.delivery_tag)
 
     def consume(self, queue, channel):
         if channel:
-            channel.basic_consume(self.callback, queue=self.queue, no_ack=True)
+            channel.basic_consume(self.callback, queue=self.queue)
             print (' [*] Waiting for messages. To exit press CTRL+C')
             channel.start_consuming()
 
