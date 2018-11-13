@@ -54,6 +54,7 @@ class Consumer():
 
     def consume(self, queue, channel):
         if channel:
+            channel.basic_qos(prefetch_count=1)     #fair dispatch among the consumers
             channel.basic_consume(self.callback, queue=self.queue)
             print (' [*] Waiting for messages. To exit press CTRL+C')
             channel.start_consuming()
