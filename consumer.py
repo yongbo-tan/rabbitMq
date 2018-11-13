@@ -45,7 +45,7 @@ class Consumer():
         '''
         LOGGER.info('Declaring queue %s', self.queue)
         if channel:
-            channel.queue_declare(queue=self.queue)
+            channel.queue_declare(queue=self.queue, durable=True)
 
     def callback(self, channel, method, properties, body):
         print(" [x] Received %r" % body)

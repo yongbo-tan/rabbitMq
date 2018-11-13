@@ -48,13 +48,18 @@ class Publisher:
         '''
         LOGGER.info('Declaring queue %s', self.queue)
         if channel:
-            channel.queue_declare(queue=self.queue)
+            channel.queue_declare(queue=self.queue, durable=True)
 
     def publish(self, channel, message):
         '''Publish messages to queue
         '''
         if channel:
-            channel.basic_publish(exchange='', routing_key=self.queue, body=message)
+            channel.basic_publish(exchange='',
+                                  routing_key=self.queue,
+                                  body=message,
+                                  properties=pika.BasicProperties(
+                                      delivery_mode=2,  # make message persistent
+                                  ))
             print(' [x] Sent ' + message)
 
     def close_connection(self, connection):
